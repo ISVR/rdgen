@@ -151,7 +151,7 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
         with:
-          nuget-version: '7.3.1'
+          nuget-version: '7.3.1.1'
       
       - name: change appname to custom
         if: env.appname != 'rustdesk'
