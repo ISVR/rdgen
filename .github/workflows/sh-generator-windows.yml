@@ -68,7 +68,7 @@ jobs:
   build-for-windows-flutter:
     name: Build Windows
     needs: [build-RustDeskTempTopMostWindow, generate-bridge, setup]
-    runs-on: self-hosted
+    runs-on: windows-2022 #self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -95,15 +95,15 @@ jobs:
         with:
           zip_password: ${{ secrets.ZIP_PASSWORD }}
 
-      - name: Finalize and Cleanup zip/json
-        if: always() # Run even if previous steps fail
-        continue-on-error: true
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "${{ secrets.GENURL }}/cleanzip"
-          method: 'POST'
-          customHeaders: '{"Content-Type": "application/json"}'
-          data: '{"uuid": "${{ env.uuid }}"}'
+      #- name: Finalize and Cleanup zip/json
+      #  if: always() # Run even if previous steps fail
+      #  continue-on-error: true
+      #  uses: fjogeleit/http-request-action@v1
+      #  with:
+      #    url: "${{ secrets.GENURL }}/cleanzip"
+      #    method: 'POST'
+      #    customHeaders: '{"Content-Type": "application/json"}'
+      #    data: '{"uuid": "${{ env.uuid }}"}'
 
       - name: Export GitHub Actions cache environment variables
         uses: actions/github-script@v6
