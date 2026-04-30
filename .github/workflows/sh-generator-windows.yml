@@ -69,8 +69,6 @@ jobs:
     name: Build Windows
     needs: [build-RustDeskTempTopMostWindow, generate-bridge, setup]
     runs-on: self-hosted
-    container:
-      image: ubuntu:22.04
     strategy:
       fail-fast: false
       matrix:
@@ -85,11 +83,6 @@ jobs:
             }
           # - { target: aarch64-pc-windows-msvc, os: windows-2022, arch: aarch64 }
     steps:
-      - name: Install dependencies (Python, Git, build tools)
-        run: |
-          apt-get update
-          apt-get install -y python3 python3-pip git curl wget build-essential cmake
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         
