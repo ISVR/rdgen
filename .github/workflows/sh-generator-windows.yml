@@ -347,24 +347,33 @@ jobs:
           flutter pub run flutter_launcher_icons
           cd ..
 
-      - name: Patch build.py to skip cargo bundle
-        run: |
-          sed -i '/cargo bundle/s/^/#/' build.py
+#      - name: Patch build.py to skip cargo bundle
+#        run: |
+#          sed -i '/cargo bundle/s/^/#/' build.py
 
-      - name: Disable Linux packaging in build.py
-        run: |
-          sed -i '/mv.*target\/release\/bundle\/deb\//s/^/#/' build.py
-          sed -i '/mv.*\.deb/s/^/#/' build.py
-          sed -i '/mv.*\.rpm/s/^/#/' build.py
+#      - name: Disable Linux packaging in build.py
+#        run: |
+#          sed -i '/mv.*target\/release\/bundle\/deb\//s/^/#/' build.py
+#          sed -i '/mv.*\.deb/s/^/#/' build.py
+#          sed -i '/mv.*\.rpm/s/^/#/' build.py
 
-      - name: Fix syntax error in build.py
-        run: |
-          sed -i 's/version, version))/version, version)/' build.py
+#      - name: Fix syntax error in build.py
+#        run: |
+#          sed -i 's/version, version))/version, version)/' build.py
+
+    - name: Install cross-compilation tools (Windows target)
+      run: |
+      sudo apt update
+      sudo apt install -y gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64
+
+    - name: Add Windows target to Rust
+      run: rustup target add x86_64-pc-windows-msvc
     
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk --flutter 
-          python3 build.py --portable 
+          cargo build --target x86_64-pc-windows-msvc --release --features flutter
+          # python3 build.py --portable 
           mv ./flutter/build/windows/x64/runner/Release ./rustdesk
  
           # Download usbmmidd_v2.zip and extract it to ./rustdesk
