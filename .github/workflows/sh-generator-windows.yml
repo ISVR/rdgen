@@ -347,6 +347,10 @@ jobs:
           flutter pub run flutter_launcher_icons
           cd ..
 
+      - name: Patch build.py to skip cargo bundle
+        run: |
+          sed -i '/cargo bundle/s/^/#/' build.py
+          
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk --flutter 
