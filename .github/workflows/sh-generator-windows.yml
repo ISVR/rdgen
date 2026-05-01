@@ -356,6 +356,10 @@ jobs:
           sed -i '/mv.*target\/release\/bundle\/deb\//s/^/#/' build.py
           sed -i '/mv.*\.deb/s/^/#/' build.py
           sed -i '/mv.*\.rpm/s/^/#/' build.py
+
+      - name: Fix syntax error in build.py
+        run: |
+          sed -i 's/version, version))/version, version)/' build.py
     
       - name: Build rustdesk
         run: |
