@@ -350,7 +350,13 @@ jobs:
       - name: Patch build.py to skip cargo bundle
         run: |
           sed -i '/cargo bundle/s/^/#/' build.py
-          
+
+      - name: Disable Linux packaging in build.py
+        run: |
+          sed -i '/mv.*target\/release\/bundle\/deb\//s/^/#/' build.py
+          sed -i '/mv.*\.deb/s/^/#/' build.py
+          sed -i '/mv.*\.rpm/s/^/#/' build.py
+    
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk --flutter 
